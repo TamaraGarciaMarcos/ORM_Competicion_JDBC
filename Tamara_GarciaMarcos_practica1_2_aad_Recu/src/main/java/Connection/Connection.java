@@ -3,7 +3,6 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 /**
  * Esta clase se encarga de realizar la conexion con la base de datos
- * 
  * @author Tamara Garcia Marcos
  */
 public class Connection {

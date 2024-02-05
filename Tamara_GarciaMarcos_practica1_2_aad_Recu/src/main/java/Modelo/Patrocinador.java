@@ -6,21 +6,11 @@ package Modelo;
  */
 import java.util.List;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.Table;
 
-@Entity
-@Table(name="Partner")
 public class Patrocinador {
-	@Id @GeneratedValue
+
 	private int id;
-	@Column(name="Name")
 	private String nombre;
-	@ManyToMany(mappedBy = "patrocinadores") // Relación ManyToMany con la clase Equipo
     private List<Equipo> equipos;
 	
 	//Constructor

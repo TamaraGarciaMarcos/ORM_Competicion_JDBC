@@ -1,45 +1,18 @@
 package Modelo;
 /**
- * Esta clase se encarga de simular a un equipo de la competicion
- * 
+ * Esta clase se encarga de simular a un equipo de la competicion * 
  * @author Tamara Garcia Marcos
  */
 import java.util.ArrayList;
 import java.util.List;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
-
-@Entity
-@Table(name="Equip")
 public class Equipo {
-	@Id 
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+
 	private long id;
-	@Column(name="Name")
     private String nombre;
-	@Column(name="Wins")
     private int victorias;
-	@Column(name="Loses")
     private int derrotas;
-	@Column(name="Players")
-	@OneToMany(mappedBy = "equipo") // Relación OneToMany con la clase Jugador
     private List<Jugador> plantilla;
-	@Column(name="Sponsors")
-	@ManyToMany
-	  @JoinTable(
-	        name = "Equipo_Patrocinador", 
-	        joinColumns = @JoinColumn(name = "equipo_id"), 
-	        inverseJoinColumns = @JoinColumn(name = "patrocinador_id")
-	  )
     private List<Patrocinador> patrocinadores;    
 	
     // Constructor

@@ -1,4 +1,8 @@
 package Main;
+/**
+ * Esta clase es el punto de inicio del programa
+ * @author Tamara Garcia Marcos
+ */
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;

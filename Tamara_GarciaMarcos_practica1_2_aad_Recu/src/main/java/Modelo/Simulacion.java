@@ -1,5 +1,8 @@
 package Modelo;
-
+/**
+ * Esta clase se encarga de simular los partidos
+ * @author Tamara Garcia Marcos
+ */
 import java.util.List;
 import java.util.Random;
 

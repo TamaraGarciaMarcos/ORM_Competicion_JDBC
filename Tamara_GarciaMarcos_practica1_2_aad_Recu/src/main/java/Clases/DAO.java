@@ -1,7 +1,6 @@
 package Clases;
 /**
- * Esta interfaz corresponde al patrón DAO que se va a implementar
- * 
+ * Esta interfaz corresponde al patrón DAO que se va a implementar * 
  * @author Tamara Garcia Marcos
  */
 import java.util.List;

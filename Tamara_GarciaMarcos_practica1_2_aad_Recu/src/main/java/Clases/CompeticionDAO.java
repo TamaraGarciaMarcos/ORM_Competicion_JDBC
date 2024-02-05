@@ -1,7 +1,6 @@
 package Clases;
 /**
  * Esta clase se encarga de implementar el patron DAO en el modelo de competicion
- * 
  * @author Tamara Garcia Marcos
  */
 import java.sql.Connection;
@@ -12,7 +11,6 @@ import java.sql.Statement;
 import java.util.List;
 
 import Modelo.Competicion;
-import jakarta.persistence.TypedQuery;
 
 public class CompeticionDAO implements DAO<Competicion>{
 	  private Connection connection;
