@@ -2,7 +2,10 @@ package Modelo;
 
 import java.io.Serializable;
 import java.util.List;
-
+/**
+ * Esta clase simula el modelo del equipo que se va a usar
+ * @author Tamara Garcia Marcos
+ */
 public class Equipo implements Serializable{
 	private static final long serialVersionUID = 1L;
 	private Long id;

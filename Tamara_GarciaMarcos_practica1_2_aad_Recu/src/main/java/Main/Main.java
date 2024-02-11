@@ -25,9 +25,7 @@ import PatronDAO.JugadorDAO;
 import PatronDAO.JugadorDAOImpl;
 
 /**
- * Esta clase se encarga de instanciar los objetos y persistirlos en la base de
- * datos
- * 
+ * Esta clase se encarga de instanciar los objetos y persistirlos en la base de datos y realizar el resto de acciones
  * @author Tamara Garcia Marcos
  */
 public class Main {

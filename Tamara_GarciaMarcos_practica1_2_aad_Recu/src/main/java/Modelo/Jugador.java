@@ -2,7 +2,10 @@ package Modelo;
 
 import java.io.Serializable;
 import java.time.LocalDate;
-
+/**
+ * Esta clase simula el modelo del jugador que se va a usar
+ * @author Tamara Garcia Marcos
+ */
 public class Jugador implements Serializable{
 	private static final long serialVersionUID = 1L;
 	private Long id;
