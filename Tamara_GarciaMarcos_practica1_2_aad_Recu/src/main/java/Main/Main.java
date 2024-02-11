@@ -31,7 +31,7 @@ import PatronDAO.JugadorDAOImpl;
 public class Main {
 
 	public static void main(String[] args) {
-
+		
 		EquipoDAO equipoDAO = new EquipoDAOImpl();
 		JugadorDAO jugadorDAO = new JugadorDAOImpl();
 		FichajeDAO fichajeDAO = new FichajeDAOImpl();
@@ -42,8 +42,7 @@ public class Main {
 			Jugador _113 = new Jugador("'113'Dogukan Balch", "Turquía", LocalDate.of(12, 8, 2004), "Jungla");
 			Jugador dajor = new Jugador("'Dajor'Oliver Rippa", "Alemania", LocalDate.of(18, 4, 2003), "Mid");
 			Jugador kobbe = new Jugador("'Kobbe'Kasper Kobbertup", "Dinamarca", LocalDate.of(21, 9, 1996), "Bot");
-			Jugador jeonghoon = new Jugador("'JeongHoon'Lee Jeong-Hoon", "Korea del Sur", LocalDate.of(22, 2, 2000),
-					"Support");
+			Jugador jeonghoon = new Jugador("'JeongHoon'Lee Jeong-Hoon", "Korea del Sur", LocalDate.of(22, 2, 2000),"Support");
 
 			Equipo astralis = new Equipo("Astralis");
 			equipoDAO.insert(astralis);
@@ -57,10 +56,8 @@ public class Main {
 			Jugador odoamne = new Jugador("'Odoamne' Andrei Pascu", "Rumania", LocalDate.of(18, 1, 1995), "Top");
 			Jugador xerxe = new Jugador("'Xerxe' Andrei Dragomir", "Rumania", LocalDate.of(05, 11, 1999), "Jungla");
 			Jugador vetheo = new Jugador("'Vetheo' Vincent Berrié", "Francia", LocalDate.of(26, 7, 2002), "Mid");
-			Jugador patrick = new Jugador("'Patrick' Patrick Jirú", "Republica Checa", LocalDate.of(04, 4, 2000),
-					"Bot");
-			Jugador targamas = new Jugador("'Targamas' Rapphael Crabbé", "Bélgica", LocalDate.of(30, 6, 2000),
-					"Support");
+			Jugador patrick = new Jugador("'Patrick' Patrick Jirú", "Republica Checa", LocalDate.of(04, 4, 2000),"Bot");
+			Jugador targamas = new Jugador("'Targamas' Rapphael Crabbé", "Bélgica", LocalDate.of(30, 6, 2000),"Support");
 
 			Equipo excel = new Equipo("Excel");
 			equipoDAO.insert(excel);
@@ -73,8 +70,7 @@ public class Main {
 			// Fnatic
 			Jugador wunder = new Jugador("'Wunder' Martin Nordahl", "Dinamarca", LocalDate.of(9, 11, 1998), "Top");
 			Jugador razork = new Jugador("'Razork' Ivan Martin", "España", LocalDate.of(07, 10, 2000), "Jungla");
-			Jugador humanoid = new Jugador("'Humanoid' Marek Brazda", "Republica Checa", LocalDate.of(14, 3, 2000),
-					"Mid");
+			Jugador humanoid = new Jugador("'Humanoid' Marek Brazda", "Republica Checa", LocalDate.of(14, 3, 2000),"Mid");
 			Jugador rekkles = new Jugador("'Rekkles' Carl Martin", "Suecia", LocalDate.of(20, 9, 1996), "Bot");
 			Jugador rhuckz = new Jugador("'Rhuckz' Rubén Barbosa", "Protugal", LocalDate.of(28, 8, 1996), "Support");
 
@@ -209,8 +205,7 @@ public class Main {
 			fichajeDAO.insert(fichaje4);
 			fichajeDAO.insert(fichaje5);
 
-			System.out.println(
-					"****************************************************************************************");
+			System.out.println("****************************************************************************************");
 
 			// Mostrar los quipos
 			List<Equipo> equipos = equipoDAO.getAll();
@@ -242,27 +237,31 @@ public class Main {
 
 			// Crear archivo binario con el historial de fichajes
 			guardarHistorialFichajes(fichajes);
+			
 			// Imprimir el historial de fichajes en pantalla
 			mostrarFichajes();
 
-		} catch (SQLException | IOException e) {
-			e.printStackTrace();
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+            System.out.println(e.toString());
 		}
 
 	}
 
-	private static void archivoFichajes(List<Fichaje> fichajes) throws IOException {
+	private static void archivoFichajes(List<Fichaje> fichajes){
 		try (FileWriter writer = new FileWriter("fichajes/historial_fichajes.txt")) {
 			for (Fichaje fichaje : fichajes) {
 				String linea = fichaje.getFecha().format(DateTimeFormatter.ofPattern("dd-MM-yyyy")) + ", "
 						+ fichaje.getJugador().getNombre() + "\n";
 				writer.write(linea);
 			}
+		}catch (IOException ioe) {
+			System.out.println(ioe.getMessage());
+            System.out.println(ioe.toString());
 		}
 	}
 
-	private static void archivoPlantillas(List<Equipo> equipos, JugadorDAO jugadorDAO)
-			throws IOException, SQLException {
+	private static void archivoPlantillas(List<Equipo> equipos, JugadorDAO jugadorDAO){
 		try (FileWriter writer = new FileWriter("fichajes/plantillas_equipos.txt")) {
 			for (Equipo equipo : equipos) {
 				writer.write("---- " + equipo.getNombre() + " ----\n");
@@ -273,18 +272,24 @@ public class Main {
 					writer.write(linea);
 				}
 			}
+		}catch ( IOException ioe) {
+			System.out.println(ioe.getMessage());
+            System.out.println(ioe.toString());
 		}
 	}
 
-	private static void guardarHistorialFichajes(List<Fichaje> fichajes) throws IOException {
+	private static void guardarHistorialFichajes(List<Fichaje> fichajes){
 		try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("fichajes/historial_fichajes.bin"))) {
 			for (Fichaje fichaje : fichajes) {
 				out.writeObject(fichaje);
 			}
+		}catch (IOException ioe) {
+			System.out.println(ioe.getMessage());
+            System.out.println(ioe.toString());
 		}
 	}
 
-	private static void mostrarFichajes() throws IOException {
+	private static void mostrarFichajes(){
 		try (ObjectInputStream in = new ObjectInputStream(new FileInputStream("fichajes/historial_fichajes.bin"))) {
 			System.out.println("\nHistorial de fichajes:");
 			while (true) {
@@ -298,10 +303,13 @@ public class Main {
 					break;
 				}
 			}
+		}catch (IOException ioe) {
+			System.out.println(ioe.getMessage());
+            System.out.println(ioe.toString());
 		}
 	}
 
-	private static void dropAndCreateTables() throws SQLException {
+	private static void dropAndCreateTables() {
 		try (Connection conn = ConexionBD.getConnection(); Statement stmt = conn.createStatement()) {
 			// Eliminar tabla si existe
 			stmt.executeUpdate("DROP TABLE IF EXISTS fichajes");
@@ -315,6 +323,9 @@ public class Main {
 					"CREATE TABLE jugadores (id INT AUTO_INCREMENT PRIMARY KEY, nombre VARCHAR(50), nacionalidad VARCHAR(25), fecha_nacimiento DATE, equipo_id INT, FOREIGN KEY (equipo_id) REFERENCES equipos(id))");
 			stmt.executeUpdate(
 					"CREATE TABLE fichajes (id INT AUTO_INCREMENT PRIMARY KEY, fecha DATE, nombre_jugador VARCHAR(25))");
+		}catch (SQLException sqle) {
+			System.out.println(sqle.getMessage());
+            System.out.println(sqle.toString());
 		}
 	}
 

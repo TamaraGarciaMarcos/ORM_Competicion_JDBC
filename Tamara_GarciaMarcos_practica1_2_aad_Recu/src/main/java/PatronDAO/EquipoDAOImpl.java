@@ -192,7 +192,7 @@ public class EquipoDAOImpl implements EquipoDAO {
 	}
 
 	@Override
-	public List<Equipo> obtenerEquiposSinPlantilla() throws SQLException {
+	public List<Equipo> obtenerEquiposSinPlantilla(){
 		List<Equipo> equiposSinPlantilla = new ArrayList<>();
 		String query = "SELECT * FROM equipos WHERE tiene_plantilla = false";
 		try (Connection conn = ConexionBD.getConnection();
@@ -213,7 +213,7 @@ public class EquipoDAOImpl implements EquipoDAO {
 	}
 
 	@Override
-	public Equipo obtenerEquipoPorNombre(String nombreEquipo) throws SQLException {
+	public Equipo obtenerEquipoPorNombre(String nombreEquipo){
 		String query = "SELECT * FROM equipos WHERE nombre = ?";
 		try (Connection conn = ConexionBD.getConnection(); PreparedStatement pstmt = conn.prepareStatement(query)) {
 			pstmt.setString(1, nombreEquipo);

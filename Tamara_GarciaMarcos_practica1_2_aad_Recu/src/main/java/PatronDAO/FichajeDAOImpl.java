@@ -126,7 +126,7 @@ public class FichajeDAOImpl implements FichajeDAO {
 	}
 
 	@Override
-	public List<Fichaje> obtenerFichajesPorFecha(String fecha) throws SQLException {
+	public List<Fichaje> obtenerFichajesPorFecha(String fecha){
 		List<Fichaje> fichajes = new ArrayList<>();
 		String query = "SELECT * FROM fichajes WHERE fecha = ?";
 		try (Connection conn = ConexionBD.getConnection(); PreparedStatement pstmt = conn.prepareStatement(query)) {
