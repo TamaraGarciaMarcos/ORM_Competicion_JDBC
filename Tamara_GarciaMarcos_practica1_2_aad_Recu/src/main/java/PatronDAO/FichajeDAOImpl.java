@@ -60,7 +60,8 @@ public class FichajeDAOImpl implements FichajeDAO {
                 if (rs.next()) {
                     String nacionalidad = rs.getString("nacionalidad");
                     LocalDate fechaNacimiento = rs.getDate("fecha_nacimiento").toLocalDate();
-                    return new Jugador(nombre, nacionalidad, fechaNacimiento);
+                    String posicion= rs.getString("posicion");
+                    return new Jugador(nombre, nacionalidad, fechaNacimiento, posicion);
                 }
             }
         }

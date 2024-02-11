@@ -55,7 +55,8 @@ public class JugadorDAOImpl implements JugadorDAO {
 				String nombre = rs.getString("nombre");
 				String nacionalidad = rs.getString("nacionalidad");
 				LocalDate fechaNacimiento = rs.getDate("fecha_nacimiento").toLocalDate();
-				Jugador jugador = new Jugador(nombre, nacionalidad, fechaNacimiento);
+				String posicion= rs.getString("posicion");
+				Jugador jugador = new Jugador(nombre, nacionalidad, fechaNacimiento, posicion);
 				jugadores.add(jugador);
 			}
 		}
@@ -77,7 +78,8 @@ public class JugadorDAOImpl implements JugadorDAO {
 	                String nombre = rs.getString("nombre");
 	                String nacionalidad = rs.getString("nacionalidad");
 	                LocalDate fechaNacimiento = rs.getDate("fecha_nacimiento").toLocalDate();
-	                Jugador jugador = new Jugador(nombre, nacionalidad, fechaNacimiento);
+	                String posicion= rs.getString("posicion");
+	                Jugador jugador = new Jugador(nombre, nacionalidad, fechaNacimiento, posicion);
 	                jugadores.add(jugador);
 	            }
 	        }
@@ -97,7 +99,8 @@ public class JugadorDAOImpl implements JugadorDAO {
 				while (rs.next()) {
 					String nombre = rs.getString("nombre");
 					LocalDate fechaNacimiento = rs.getDate("fecha_nacimiento").toLocalDate();
-					Jugador jugador = new Jugador(nombre, nacionalidad, fechaNacimiento);
+					String posicion= rs.getString("posicion");
+					Jugador jugador = new Jugador(nombre, nacionalidad, fechaNacimiento, posicion);
 					jugadores.add(jugador);
 				}
 			}
@@ -116,7 +119,8 @@ public class JugadorDAOImpl implements JugadorDAO {
 					String nombre = rs.getString("nombre");
 					String nacionalidad = rs.getString("nacionalidad");
 					LocalDate fechaNacimiento = rs.getDate("fecha_nacimiento").toLocalDate();
-					Jugador jugador = new Jugador(nombre, nacionalidad, fechaNacimiento);
+					String posicion= rs.getString("posicion");
+					Jugador jugador = new Jugador(nombre, nacionalidad, fechaNacimiento, posicion);
 					jugadores.add(jugador);
 				}
 			}
