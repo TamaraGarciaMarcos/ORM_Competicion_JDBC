@@ -1,46 +1,38 @@
 package Modelo;
-/**
- * Esta clase se encarga de los jugadores de la competicion
- * @author Tamara Garcia Marcos
- */
-public class Jugador {
 
-	private long id;
-	private String apodo;
+import java.io.Serializable;
+import java.time.LocalDate;
+
+public class Jugador implements Serializable{
+	private static final long serialVersionUID = 1L;
+	private Long id;
 	private String nombre;
 	private String nacionalidad;
-	private String fechaNacimiento;
+	private LocalDate fechaNacimiento;
 	private String posicion;
-	private Equipo equipo;
 
-	// Constructor
-	public Jugador(String apodo, String nombre, String nacionalidad, String fechaNacimiento, String posicion) {
-		this.apodo = apodo;
+	public Jugador(Long id, String nombre, String nacionalidad, LocalDate fechaNacimiento, String posicion) {
+		super();
+		this.id=id;
 		this.nombre = nombre;
 		this.nacionalidad = nacionalidad;
 		this.fechaNacimiento = fechaNacimiento;
-		this.posicion = posicion;
+		this.posicion= posicion;
 	}
-
-	public Jugador(long id, String apodo, String nombre, String nacionalidad, String fechaNacimiento, String posicion) {
-		this.id = id;
-		this.apodo = apodo;
+	public Jugador(String nombre, String nacionalidad, LocalDate fechaNacimiento, String posicion) {
 		this.nombre = nombre;
 		this.nacionalidad = nacionalidad;
 		this.fechaNacimiento = fechaNacimiento;
-		this.posicion = posicion;
+		this.posicion= posicion;
 	}
-
-	// Getters y setters
-
-	public long getId() {
+	
+	public Long getId() {
 		return id;
 	}
-
-	public void setId(int id) {
-		this.id = id;
+	public void setId(Long id) {
+		this.id=id;
 	}
-
+	
 	public String getNombre() {
 		return nombre;
 	}
@@ -57,32 +49,19 @@ public class Jugador {
 		this.nacionalidad = nacionalidad;
 	}
 
-	public String getFechaNacimiento() {
+	public LocalDate getFechaNacimiento() {
 		return fechaNacimiento;
 	}
 
-	public void setFechaNacimiento(String fechaNacimiento) {
+	public void setFechaNacimiento(LocalDate fechaNacimiento) {
 		this.fechaNacimiento = fechaNacimiento;
 	}
-
-	@Override
-	public String toString() {
-		return nombre + ", Nacionalidad: " + nacionalidad + ", Fecha de Nacimiento: " + fechaNacimiento;
-	}
-
+	
 	public String getPosicion() {
 		return posicion;
 	}
-
 	public void setPosicion(String posicion) {
 		this.posicion = posicion;
 	}
 
-	public String getApodo() {
-		return apodo;
-	}
-
-	public void setApodo(String apodo) {
-		this.apodo = apodo;
-	}
 }

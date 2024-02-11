@@ -1,53 +1,43 @@
 package Main;
-/**
- * Esta clase es el punto de inicio del programa
- * @author Tamara Garcia Marcos
- */
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.sql.Statement;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
-import Clases.CompeticionDAO;
-import Clases.EquipoDAO;
-import Clases.JugadorDAO;
-import Modelo.Competicion;
+import Connection.ConexionBD;
 /**
  * Esta clase se encarga de instanciar los objetos y persistirlos en la base de datos
  * 
  * @author Tamara Garcia Marcos
  */
 import Modelo.Equipo;
+import Modelo.Fichaje;
 import Modelo.Jugador;
-import Modelo.Patrocinador;
+import PatronDAO.EquipoDAO;
+import PatronDAO.EquipoDAOImpl;
+import PatronDAO.JugadorDAO;
 
 public class Main {
 
 	public static void main(String[] args) {
-
-		//Patrocinadores
-		Patrocinador audi = new Patrocinador("Audi");
-		Patrocinador logitech = new Patrocinador("Logitech G");
-		Patrocinador justeat = new Patrocinador("Just Eat");
-		Patrocinador jdsports = new Patrocinador("JD Sports");
-		Patrocinador monster = new Patrocinador("Monster Energy");
-		Patrocinador asos = new Patrocinador("Asos");
-		Patrocinador adidas = new Patrocinador("Adidas");
-		Patrocinador nike = new Patrocinador("Nike");
-		Patrocinador hummel = new Patrocinador("Hummel");
-		Patrocinador cupra = new Patrocinador("Cupra");
-		Patrocinador overactive = new Patrocinador("Overactive Media");
-		Patrocinador mercedes = new Patrocinador("Mercedes-Benz");
-		Patrocinador nh = new Patrocinador("NH Hotel");
-		Patrocinador gfuel = new Patrocinador("GFuel");
-		Patrocinador ozone = new Patrocinador("Ozone Gaming Gear");
-		Patrocinador garnier = new Patrocinador("Garnier Fructis");
+		
+		EquipoDAO equipo = new EquipoDAOImpl();
+		
 		
 		//Astralis
-		Jugador finn = new Jugador("Finn","Finn Wiestal","Suecia", "03-06-1999" ,"Top");
-		Jugador _113 = new Jugador("113","Dogukan Balch","Turquía", "12-08-2004" ,"Jungla");
-		Jugador dajor = new Jugador("Dajor","Oliver Rippa","Alemania", "18-04-2003" ,"Mid");
-		Jugador kobbe = new Jugador("Kobbe","Kasper Kobbertup","Dinamarca", "21-09-1996" ,"Bot");
-		Jugador jeonghoon = new Jugador("JeongHoon","Lee Jeong-Hoon","Korea del Sur", "22-02-200" ,"Support");
+		Jugador finn = new Jugador("'Finn' Finn Wiestal","Suecia",LocalDate.of(03,6,1999),"Top");
+		Jugador _113 = new Jugador("'113'Dogukan Balch","Turquía",LocalDate.of(12,8,2004),"Jungla");
+		Jugador dajor = new Jugador("'Dajor'Oliver Rippa","Alemania",LocalDate.of(18,4,2003),"Mid");
+		Jugador kobbe = new Jugador("'Kobbe'Kasper Kobbertup","Dinamarca",LocalDate.of(21,9,1996),"Bot");
+		Jugador jeonghoon = new Jugador("'JeongHoon'Lee Jeong-Hoon","Korea del Sur",LocalDate.of(22,2,2000),"Support");
 		Jugador aod = new Jugador("AoD","Alin-Ciprian Valtat","Romania", "26-01-1993" ,"Coach");
 		
 		Equipo astralis = new Equipo("Astralis");
@@ -229,21 +219,75 @@ public class Main {
 		vitality.agregarPatrocinador(garnier);
 		vitality.agregarPatrocinador(hummel);
 
-		//Competicion
-		Competicion lec = new Competicion("LEC League of Legends", "2023");
-		lec.agregarEquipo(astralis);
-		lec.agregarEquipo(excel);
-		lec.agregarEquipo(fnatic);
-		lec.agregarEquipo(madlions);
-		lec.agregarEquipo(koi);
-		lec.agregarEquipo(g2);
-		lec.agregarEquipo(bds);
-		lec.agregarEquipo(sk);
-		lec.agregarEquipo(heretics);
-		lec.agregarEquipo(vitality);
+		
 
 	}
 	
+	private static void ArchivoFichajes(List<Fichaje> fichajes) throws IOException {
+		try (FileWriter writer = new FileWriter("fichajes/historial_fichajes.txt")) {
+			for (Fichaje fichaje : fichajes) {
+				String linea = fichaje.getFecha().format(DateTimeFormatter.ofPattern("dd-MM-yyyy")) + ", "
+						+ fichaje.getJugador().getNombre() + "\n";
+				writer.write(linea);
+			}
+		}
+	}
+
+	private static void ArchivoPlantillas(List<Equipo> equipos, JugadorDAO jugadorDAO)
+			throws IOException, SQLException {
+		try (FileWriter writer = new FileWriter("fichajes/plantillas_equipos.txt")) {
+			for (Equipo equipo : equipos) {
+				writer.write("---- " + equipo.getNombre() + " ----\n");
+				List<Jugador> jugadoresEquipo = jugadorDAO.obtenerJugadoresPorEquipo(equipo.getNombre());
+				for (Jugador jugador : jugadoresEquipo) {
+					String linea = jugador.getNombre() + ", " + jugador.getNacionalidad() + ", "
+							+ jugador.getFechaNacimiento().format(DateTimeFormatter.ofPattern("dd-MM-yyyy")) + "\n";
+					writer.write(linea);
+				}
+			}
+		}
+	}
+	
+	private static void guardarHistorialFichajes(List<Fichaje> fichajes) throws IOException {
+        try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("fichajes/historial_fichajes.bin"))) {
+            for (Fichaje fichaje : fichajes) {
+                out.writeObject(fichaje);
+            }
+        }
+    }
+	
+	private static void mostrarTodosFichajes() throws IOException {
+	    try (ObjectInputStream in = new ObjectInputStream(new FileInputStream("fichajes/historial_fichajes.bin"))) {
+	        System.out.println("\nHistorial de fichajes:");
+	        while (true) {
+	            try {
+	                Fichaje fichaje = (Fichaje) in.readObject();
+	                System.out.println(fichaje.getFecha() + " - " + fichaje.getJugador().getNombre());
+	            } catch (ClassNotFoundException e) {
+	                System.err.println("Error: Clase no encontrada durante la deserialización.");
+	            } catch (IOException e) {
+	                // EOFException al final del archivo
+	                break;
+	            }
+	        }
+	    }
+	}
+	
+	private static void dropAndCreateTables() throws SQLException {
+	    try (Connection conn = ConexionBD.getConnection(); Statement stmt = conn.createStatement()) {
+	        // Eliminar tabla si existe
+	    	stmt.executeUpdate("DROP TABLE IF EXISTS fichajes");
+	    	stmt.executeUpdate("DROP TABLE IF EXISTS jugadores");
+	        stmt.executeUpdate("DROP TABLE IF EXISTS equipos");
+	        
+	        
+
+	        // Crear nuevas tablas
+	        stmt.executeUpdate("CREATE TABLE equipos (id INT AUTO_INCREMENT PRIMARY KEY, nombre VARCHAR(50), tiene_plantilla BOOLEAN DEFAULT false)");
+	        stmt.executeUpdate("CREATE TABLE jugadores (id INT AUTO_INCREMENT PRIMARY KEY, nombre VARCHAR(50), nacionalidad VARCHAR(25), fecha_nacimiento DATE, equipo_id INT, FOREIGN KEY (equipo_id) REFERENCES equipos(id))");
+	        stmt.executeUpdate("CREATE TABLE fichajes (id INT AUTO_INCREMENT PRIMARY KEY, fecha DATE, nombre_jugador VARCHAR(25))");
+	    }
+	}
 	
 
 
